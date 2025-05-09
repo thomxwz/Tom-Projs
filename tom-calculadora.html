@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+  <title>Festa de Santo Antônio 2025</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { touch-action: manipulation; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #eef2f5;
+      padding: 10px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #1b5e20;
+      margin-bottom: 16px;
+      font-size: 20px;
+    }
+    button {
+      transition: transform .1s, box-shadow .2s;
+    }
+    button:active {
+      transform: scale(0.96);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* GRID DE FICHAS */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+      padding: 10px;
+      text-align: center;
+    }
+    .card h2 {
+      margin: 6px 0;
+      font-size: 16px;
+      color: #2e7d32;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    .controls button {
+      background: #2e7d32;
+      color: #fff;
+      font-size: 18px;
+      width: 32px; height: 32px;
+      border: none;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .count {
+      font-size: 16px;
+      min-width: 24px;
+    }
+
+    /* CARTÃO DE RECEBIMENTO */
+    .recebimento {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .somas {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .label {
+      font-size: 14px;
+      color: #555;
+    }
+    .highlight {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .total-row .highlight   { color: #2e7d32; } /* verde */
+    .paid-row .highlight    { color: #1565c0; } /* azul */
+    .change-row .highlight  { color: #f57c00; } /* laranja */
+
+    /* BOTOÕES DE NOTAS: flex-wrap em duas linhas */
+    .notas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+    }
+    .notas button {
+      background: #00796b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      flex: 1 0 30%;
+      text-align: center;
+    }
+
+    /* TROCO ESPECIAL */
+    details.special {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    details.special[open] summary::after { content: " ▲"; }
+    details.special summary {
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      list-style: none;
+      outline: none;
+      color: #333;
+    }
+    .special-content { margin-top: 10px; }
+    .valor-pago-especial {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .valor-pago-especial button {
+      background: #ff9800;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      flex: 1 0 22%;
+      text-align: center;
+    }
+    .suggestion {
+      font-size: 12px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    /* AÇÕES */
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .actions button {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .clear-pay { background: #455a64; }
+    .reset     { background: #d32f2f; }
+
+    /* CONFIGURAÇÕES NO FINAL (discreto) */
+    details#configuracoes {
+      font-size: 14px;
+      color: #555;
+      margin-top: 40px;
+    }
+    details#configuracoes summary {
+      font-size: 16px;
+      font-weight: normal;
+      cursor: pointer;
+      list-style: none;
+      outline: none;
+      padding: 8px 0;
+      border-top: 1px solid #ddd;
+    }
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .config-grid label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #555;
+    }
+    .config-grid input {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .config-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .config-actions button {
+      flex: 1;
+      padding: 8px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .config-save { background: #2e7d32; }
+    .config-cancel { background: #d32f2f; }
+  </style>
+</head>
+<body>
+
+  <h1>Festa de Santo Antônio 2025</h1>
+
+  <!-- GRID DE FICHAS -->
+  <div class="grid">
+    <div class="card" data-price="3">
+      <h2>R$ 3,00</h2>
+      <div class="controls">
+        <button onclick="changeCount(this,-1)">-</button>
+        <div class="count">0</div>
+        <button onclick="changeCount(this,1)">+</button>
+      </div>
+    </div>
+    <div class="card" data-price="4">
+      <h2>R$ 4,00</h2>
+      <div class="controls">
+        <button onclick="changeCount(this,-1)">-</button>
+        <div class="count">0</div>
+        <button onclick="changeCount(this,1)">+</button>
+      </div>
+    </div>
+    <div class="card" data-price="5">
+      <h2>R$ 5,00</h2>
+      <div class="controls">
+        <button onclick="changeCount(this,-1)">-</button>
+        <div class="count">0</div>
+        <button onclick="changeCount(this,1)">+</button>
+      </div>
+    </div>
+    <div class="card" data-price="8">
+      <h2>R$ 8,00</h2>
+      <div class="controls">
+        <button onclick="changeCount(this,-1)">-</button>
+        <div class="count">0</div>
+        <button onclick="changeCount(this,1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECEBIMENTO -->
+  <div class="recebimento">
+    <div class="somas">
+      <div class="row total-row">
+        <div class="label">Total:</div>
+        <div id="total" class="highlight">R$ 0,00</div>
+      </div>
+      <div class="row paid-row">
+        <div class="label">Valor Pago:</div>
+        <div id="valorPago" class="highlight">R$ 0,00</div>
+      </div>
+      <div class="row change-row">
+        <div class="label">Troco:</div>
+        <div id="troco" class="highlight">R$ 0,00</div>
+      </div>
+    </div>
+    <div class="notas">
+      <button onclick="setValorPago(2)">R$ 2</button>
+      <button onclick="setValorPago(5)">R$ 5</button>
+      <button onclick="setValorPago(10)">R$ 10</button>
+      <button onclick="setValorPago(20)">R$ 20</button>
+      <button onclick="setValorPago(100)">R$ 100</button>
+      <button onclick="setValorPago(50)">R$ 50</button>
+    </div>
+  </div>
+
+  <!-- TROCO ESPECIAL -->
+  <details class="special" open>
+    <summary>Troco Especial ▼</summary>
+    <div class="special-content">
+      <div class="row paid-row">
+        <div class="label">Extra pago:</div>
+        <div id="valorEspecial" class="highlight">R$ 0,00</div>
+      </div>
+      <div class="valor-pago-especial">
+        <button onclick="setValorEspecial(1)">R$ 1</button>
+        <button onclick="setValorEspecial(2)">R$ 2</button>
+        <button onclick="setValorEspecial(3)">R$ 3</button>
+        <button onclick="setValorEspecial(5)">R$ 5</button>
+      </div>
+      <div id="suggestion" class="suggestion" style="display:none;"></div>
+    </div>
+  </details>
+
+  <!-- AÇÕES -->
+  <div class="actions">
+    <button class="clear-pay" onclick="apagarPagamento()">Apagar Valor Pago</button>
+    <button class="reset" onclick="resetarTudo()">Zerar Tudo</button>
+  </div>
+
+  <!-- CONFIGURAÇÕES DAS FICHAS (no final) -->
+  <details id="configuracoes">
+    <summary>⚙️ Configurações das Fichas</summary>
+    <div class="config-grid">
+      <div>
+        <label for="cfg1">Ficha 1 (R$):</label>
+        <input id="cfg1" type="text" value="3,00"/>
+      </div>
+      <div>
+        <label for="cfg2">Ficha 2 (R$):</label>
+        <input id="cfg2" type="text" value="4,00"/>
+      </div>
+      <div>
+        <label for="cfg3">Ficha 3 (R$):</label>
+        <input id="cfg3" type="text" value="5,00"/>
+      </div>
+      <div>
+        <label for="cfg4">Ficha 4 (R$):</label>
+        <input id="cfg4" type="text" value="8,00"/>
+      </div>
+    </div>
+    <div class="config-actions">
+      <button type="button" class="config-save"   onclick="salvarConfig()">Salvar</button>
+      <button type="button" class="config-cancel" onclick="cancelarConfig()">Cancelar</button>
+    </div>
+  </details>
+
+  <script>
+    let valorPrimario = 0, valorEspecial = 0;
+    const cards = () => [...document.querySelectorAll('.card')];
+
+    function changeCount(btn, d) {
+      const cnt = btn.parentNode.querySelector('.count');
+      cnt.textContent = Math.max(0, +cnt.textContent + d);
+      atualizarTotal();
+    }
+
+    function atualizarTotal() {
+      let total = 0;
+      cards().forEach(c => {
+        total += +c.dataset.price * +c.querySelector('.count').textContent;
+      });
+      document.getElementById('total').textContent = formatar(total);
+      atualizarTroco(total);
+    }
+
+    function setValorPago(v) {
+      valorPrimario = v;
+      valorEspecial = 0;
+      document.getElementById('valorEspecial').textContent = formatar(0);
+      atualizarTotal();
+    }
+
+    function setValorEspecial(v) {
+      valorEspecial = v;
+      atualizarTotal();
+    }
+
+    function atualizarTroco(total) {
+      const pago = valorPrimario + valorEspecial;
+      document.getElementById('valorPago').textContent =
+        valorEspecial
+          ? formatar(valorPrimario) + ' + ' + formatar(valorEspecial)
+          : formatar(valorPrimario);
+      const troco = Math.max(0, pago - total);
+      document.getElementById('troco').textContent = formatar(troco);
+
+      // sugestão para múltiplo de 5
+      const mod5 = troco % 5;
+      const sug = mod5 ? 5 - mod5 : 0;
+      const ds = document.getElementById('suggestion');
+      if (sug > 0) {
+        ds.textContent = 
+          Sugestão: adicione ${formatar(sug)} para receber troco de ${formatar(troco + sug)}.;
+        ds.style.display = 'block';
+      } else {
+        ds.style.display = 'none';
+      }
+    }
+
+    function apagarPagamento() {
+      valorPrimario = 0;
+      valorEspecial = 0;
+      document.getElementById('valorPago').textContent    = formatar(0);
+      document.getElementById('valorEspecial').textContent= formatar(0);
+      document.getElementById('troco').textContent        = formatar(0);
+      document.getElementById('suggestion').style.display = 'none';
+    }
+
+    function resetarTudo() {
+      cards().forEach(c => c.querySelector('.count').textContent = '0');
+      document.getElementById('total').textContent = formatar(0);
+      apagarPagamento();
+    }
+
+    function salvarConfig() {
+      cards().forEach((c, i) => {
+        const inp = document.getElementById('cfg' + (i + 1));
+        let v = parseFloat(inp.value.replace(',', '.'));
+        if (isNaN(v) || v < 0) v = +c.dataset.price;
+        c.dataset.price = v;
+        c.querySelector('h2').textContent = 'R$ ' + v.toFixed(2).replace('.', ',');
+        c.querySelector('.count').textContent = '0';
+      });
+      atualizarTotal();
+      cancelarConfig();
+    }
+
+    function cancelarConfig() {
+      cards().forEach((c, i) => {
+        document.getElementById('cfg' + (i + 1)).value =
+          (+c.dataset.price).toFixed(2).replace('.', ',');
+      });
+      document.getElementById('configuracoes').removeAttribute('open');
+    }
+
+    function formatar(n) {
+      return 'R$ ' + n.toFixed(2).replace('.', ',');
+    }
+
+    // inicializa
+    atualizarTotal();
+  </script>
+</body>
+</html>
